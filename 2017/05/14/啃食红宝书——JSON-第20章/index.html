@@ -485,39 +485,39 @@ var time2 = JSON.parse(time,function(key,value){
           
   <div class="comments" id="comments">
     
-    <div onclick="showGitment()" id="gitment_title" class="gitment_title">显示 Gitment 评论</div>
-    <div id="container" style="display:none"></div>
-    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-    <script>
-    const myTheme = {
-      render(state, instance) {
-        const container = document.createElement('div');
-        container.lang = "en-US";
-        container.className = 'gitment-container gitment-root-container';
-        container.appendChild(instance.renderHeader(state, instance));
-        container.appendChild(instance.renderEditor(state, instance));
-        container.appendChild(instance.renderComments(state, instance));
-        container.appendChild(instance.renderFooter(state, instance));
-        return container;
-      }
-    }
-    function showGitment() {
-      $("#gitment_title").attr("style", "display:none");
-      $("#container").attr("style", "").addClass("gitment_container");
-      var gitment = new Gitment({
-        id: window.location.pathname,
-        theme: myTheme,
-        owner: 'smilebuz',
-        repo: 'smilebuz.github.io',
-        oauth: {
-          client_id: 'dfb7ea9dfd9905839682',
-          client_secret: '2cf5af7862e0e0132711db7718e10547db4e51fe'
+      <div onclick="showGitment()" id="gitment_title" class="gitment_title">显示 Gitment 评论</div>
+      <div id="container" style="display:none"></div>
+      <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+      <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+      <script>
+      const myTheme = {
+        render(state, instance) {
+          const container = document.createElement('div');
+          container.lang = "en-US";
+          container.className = 'gitment-container gitment-root-container';
+          container.appendChild(instance.renderHeader(state, instance));
+          container.appendChild(instance.renderEditor(state, instance));
+          container.appendChild(instance.renderComments(state, instance));
+          container.appendChild(instance.renderFooter(state, instance));
+          return container;
         }
-      });
-      gitment.render('container');
-    }
-    </script>
+      }
+      function showGitment() {
+        $("#gitment_title").attr("style", "display:none");
+        $("#container").attr("style", "").addClass("gitment_container");
+        var gitment = new Gitment({
+          id: window.location.pathname,
+          theme: myTheme,
+          owner: 'smilebuz',
+          repo: 'smilebuz.github.io',
+          oauth: {
+            client_id: 'dfb7ea9dfd9905839682',
+            client_secret: '2cf5af7862e0e0132711db7718e10547db4e51fe'
+          }
+        });
+        gitment.render('container');
+      }
+      </script>
     
   </div>
 

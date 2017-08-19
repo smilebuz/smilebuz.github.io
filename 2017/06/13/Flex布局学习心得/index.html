@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="XPZ">
 <meta property="og:description" content="最近看了一些介绍Flex布局的文章，学到了不少东西，在这里简要的汇总一下。  Flex布局的盒模型和术语Flex布局的构成元素分为两种：flex container和flex item。为元素样式display设置flex或inline-flex即可使其成为一个弹性容器(flex container)。弹性布局容器内部的元素则被称为弹性项目(flex item)，而在容器内部的文字也会成为flex">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-06-13T12:35:42.000Z">
+<meta property="og:updated_time" content="2017-08-19T12:34:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flex布局学习心得">
 <meta name="twitter:description" content="最近看了一些介绍Flex布局的文章，学到了不少东西，在这里简要的汇总一下。  Flex布局的盒模型和术语Flex布局的构成元素分为两种：flex container和flex item。为元素样式display设置flex或inline-flex即可使其成为一个弹性容器(flex container)。弹性布局容器内部的元素则被称为弹性项目(flex item)，而在容器内部的文字也会成为flex">
@@ -471,39 +471,39 @@
           
   <div class="comments" id="comments">
     
-    <div onclick="showGitment()" id="gitment_title" class="gitment_title">显示 Gitment 评论</div>
-    <div id="container" style="display:none"></div>
-    <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-    <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-    <script>
-    const myTheme = {
-      render(state, instance) {
-        const container = document.createElement('div');
-        container.lang = "en-US";
-        container.className = 'gitment-container gitment-root-container';
-        container.appendChild(instance.renderHeader(state, instance));
-        container.appendChild(instance.renderEditor(state, instance));
-        container.appendChild(instance.renderComments(state, instance));
-        container.appendChild(instance.renderFooter(state, instance));
-        return container;
-      }
-    }
-    function showGitment() {
-      $("#gitment_title").attr("style", "display:none");
-      $("#container").attr("style", "").addClass("gitment_container");
-      var gitment = new Gitment({
-        id: window.location.pathname,
-        theme: myTheme,
-        owner: 'smilebuz',
-        repo: 'smilebuz.github.io',
-        oauth: {
-          client_id: 'dfb7ea9dfd9905839682',
-          client_secret: '2cf5af7862e0e0132711db7718e10547db4e51fe'
+      <div onclick="showGitment()" id="gitment_title" class="gitment_title">显示 Gitment 评论</div>
+      <div id="container" style="display:none"></div>
+      <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+      <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+      <script>
+      const myTheme = {
+        render(state, instance) {
+          const container = document.createElement('div');
+          container.lang = "en-US";
+          container.className = 'gitment-container gitment-root-container';
+          container.appendChild(instance.renderHeader(state, instance));
+          container.appendChild(instance.renderEditor(state, instance));
+          container.appendChild(instance.renderComments(state, instance));
+          container.appendChild(instance.renderFooter(state, instance));
+          return container;
         }
-      });
-      gitment.render('container');
-    }
-    </script>
+      }
+      function showGitment() {
+        $("#gitment_title").attr("style", "display:none");
+        $("#container").attr("style", "").addClass("gitment_container");
+        var gitment = new Gitment({
+          id: window.location.pathname,
+          theme: myTheme,
+          owner: 'smilebuz',
+          repo: 'smilebuz.github.io',
+          oauth: {
+            client_id: 'dfb7ea9dfd9905839682',
+            client_secret: '2cf5af7862e0e0132711db7718e10547db4e51fe'
+          }
+        });
+        gitment.render('container');
+      }
+      </script>
     
   </div>
 
