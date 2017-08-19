@@ -261,6 +261,154 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/19/学习es6——Promise对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="victorxpz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/chai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XPZ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/19/学习es6——Promise对象/" itemprop="url">
+                  学习es6——Promise对象
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-19T22:04:11+08:00">
+                2017-08-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在es6中引入了<code>Promise</code>对象处理异步请求，其包含三种状态:Pending, Fulfilled和Rejected，分别代表了初始状态、完成和失败。Promise对象状态的改变只有两种情况:Pending -&gt; Fulfilled或者Pending -&gt; Rejected。当状态变为Fulfilled或Rejected时，Promise对象就可以被称作Resolved，即已定型的。当状态改变之后，Promise对象会一直保持该状态和结果，当回调函数进行监听时即可取得最终结果。本文主要讲述了Promise的基本概念、<code>then</code>方法等。</p>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>构造Promise对象实例的语法如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new Promise(function (resolve, reject) &#123;&#125;)</div></pre></td></tr></table></figure></p>
+<p>由此可见Promise对象其实是一个构造函数，它只接受一个函数参数，这里将其成为<code>executor</code>，<code>executor</code>函数的参数又分别是两个函数，即<code>resolve</code>和<code>reject</code>。<code>resolve</code>的作用是将状态从Pending变为Fulfilled，并将结果发送出去；而<code>reject</code>的作用则是将状态从Pending变为Rejected，并将失败的信息(通常为报错信息)发送出去。另外需要注意的时，在构建Promise实例时，会同步执行executor函数中的语句。<br>对于生成的promise实例，可以用<code>then</code>方法指定回调函数对返回结果进行处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let p = new Promise(function (resolve, reject) &#123;&#125;)</div><div class="line">p.then(function (value) &#123;</div><div class="line"></div><div class="line">  &#125;, function (error) &#123;</div><div class="line"></div><div class="line">  &#125;)</div></pre></td></tr></table></figure></p>
+<p><code>then</code>方法接受两个参数，分别为对于完成状态和失败状态的回调函数，回调函数的参数数量与<code>resolve</code>和<code>reject</code>函数传递出来的异步操作的结果有关，其中第二个函数，即失败状态的回调函数为可选参数，一般不选，使用后文提及的<code>catch</code>方法对失败状态进行处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">let p = new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  console.log(&apos;Promise&apos;)</div><div class="line">  resolve()</div><div class="line">&#125;)</div><div class="line">p.then(() =&gt; &#123;</div><div class="line">  console.log(&apos;resolve&apos;)</div><div class="line">&#125;)</div><div class="line">console.log(&apos;hi&apos;)</div></pre></td></tr></table></figure></p>
+<p>执行上述代码后，在控制台将会先后输出”Promise”,”hi”和”resolve”。这是因为在执行Promise构造函数时，<code>executor</code>函数将会同步执行，而因为<code>then</code>方法中的回调函数将在当前这轮任务的最后执行，所以会先打印出”hi”，之后才是”resolve”。</p>
+<h3 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then()"></a>Promise.prototype.then()</h3><p>之前已经提到过，Promise实例使用<code>then</code>方法对状态结果进行回调处理。而需要注意的是，<code>then</code>方法的返回值是一个新的<code>Promise</code>实例(不是之前的)，也就是说<code>then</code>方法可以进行链式的写法，即<code>p.then().then()</code>。这种写法在需要通过一组异步操作得到结果时比较有效，即第一个<code>then</code>返回一个新的包含异步操作的Promise实例，之后的<code>then</code>方法需要对这个Promise实例的最终状态进行监听并添加回调函数。</p>
+<h3 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch()"></a>Promise.prototype.catch()</h3><p><code>catch</code>方法是<code>then(null, rejection)</code>的别名，用于指定发生错误时的回调函数，写法为<code>p.catch(function (error) {})</code>。Promise对象的错误具有”冒泡”性质，即错误会一直向后传递直到被捕获，所以无论在调用<code>catch</code>方法前有多少Promise对象进行报错，都会被最后调用的<code>catch</code>方法捕获。结合上面讲过的<code>then</code>函数，为Promise实例添加回调函数通常可以写成如下形式:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">let p = new Promise(function (resolve, reject) &#123;&#125;)</div><div class="line">p.then( function (value) =&gt; &#123;</div><div class="line">    // 成功时回调</div><div class="line">  &#125;)</div><div class="line">  .catch( function (error) =&gt; &#123;</div><div class="line">    // 错误时回调</div><div class="line">  &#125;)</div></pre></td></tr></table></figure></p>
+<p>注意，如果在<code>executor</code>函数中已经使用<code>resolve</code>函数改变了状态，那么之后在同一个Promise对象內抛出的错误则不会被执行，因为Promise对象的状态一旦改变，就会永久保持住，不会再次更改。</p>
+<h3 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h3><p><code>Promise.resolve</code>方法将已有对象转换为Promise对象，接收一个参数，参数的类型包括以下几种情况。</p>
+<ul>
+<li><p>Promise对象</p>
+<p>这种情况下<code>Promise.resolve</code>方法将会原模原样的将对象返回。</p>
+</li>
+<li><p>一个thenable对象</p>
+<p>thenable对象是指本身具有<code>then</code>方法的对象，对于这种类型的参数，<code>Promise.resolve</code>方法将会将他转变成Promise对象并立即执行该对象之前的<code>then</code>方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">let thenable = &#123;</div><div class="line">  then: (resolve, reject) =&gt; &#123;</div><div class="line">    resolve(&quot;victor&quot;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">let p = Promise.resovle(thenable)</div><div class="line">p.then((value) =&gt; &#123;</div><div class="line">  console.log(value)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 控制台输出&quot;victor&quot;</div></pre></td></tr></table></figure>
+<p>当时我也对这个转化理解了一段时间，后来在网上查看资料，发现这就是一个语法糖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 声明thenable</div><div class="line"></div><div class="line">let p = Promise.resolve(thenable)</div><div class="line"></div><div class="line">// 等价于</div><div class="line"></div><div class="line">let p = new Promise((resolve, reject) =&gt; &#123;</div><div class="line">  thenable.then(resolve, reject)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>我觉得可以理解成将thenable中的then函数作为Promise构造函数的<code>executor</code>函数参数并传入，从而生成心的Promise实例。</p>
+</li>
+<li><p>一个普通对象或者其他类型的变量</p>
+<p>这种情况下<code>Promise.resolve</code>方法将会返回一个完成状态(Fulfilled)的Promise实例，<code>Promise.resolve</code>方法的参数将会传递给回调函数。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Promise对象在处理异步编程时具有很大的作用，最为明显的就是在网络请求方面，能够很好的安排对返回结果的处理逻辑。因为最近在项目中使用到，所以查阅了一些相关资料，这篇文章也只是讲了有关Promise对象的部分知识，我也将我认为有价值的阅读资料链接放在下面，希望也能够有小伙伴从中收益吧～今天就到这里啦～溜了溜了～</p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p><a href="http://es6.ruanyifeng.com/#docs/promise" target="_blank" rel="external">阮一峰es6入门</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise" target="_blank" rel="external">MDN</a></p>
+<p><a href="https://segmentfault.com/q/1010000005330351" target="_blank" rel="external">Segmentfault关于Promise.resolve方法的讨论</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/Flex布局学习心得/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1230,7 +1378,7 @@ var time2 = JSON.parse(time,function(key,value){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1243,7 +1391,7 @@ var time2 = JSON.parse(time,function(key,value){
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
