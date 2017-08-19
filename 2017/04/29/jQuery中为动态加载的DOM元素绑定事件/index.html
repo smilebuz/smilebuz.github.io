@@ -1,0 +1,723 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,jQuery,DOM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近终于有项目给自己的前端练手，因为是第一个项目，所以难免遇到各种各样的问题，不过踩坑也是很重要的一部分。今天说的就是一个小坑。很酷，不说闲话，步入正题。因为在项目中经常需要通过ajax动态填充表格，而我在为表格中的元素绑定事件时理所当然的像往常一样，直接去寻找DOM元素然后为其添加on()函数，然而在页面加载后发现为表格中元素绑定的事件并没有产生应有的效果，后来经过查看jQuery官网的api文">
+<meta name="keywords" content="JavaScript,jQuery,DOM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery中为动态加载的DOM元素绑定事件">
+<meta property="og:url" content="http://yoursite.com/2017/04/29/jQuery中为动态加载的DOM元素绑定事件/index.html">
+<meta property="og:site_name" content="XPZ">
+<meta property="og:description" content="最近终于有项目给自己的前端练手，因为是第一个项目，所以难免遇到各种各样的问题，不过踩坑也是很重要的一部分。今天说的就是一个小坑。很酷，不说闲话，步入正题。因为在项目中经常需要通过ajax动态填充表格，而我在为表格中的元素绑定事件时理所当然的像往常一样，直接去寻找DOM元素然后为其添加on()函数，然而在页面加载后发现为表格中元素绑定的事件并没有产生应有的效果，后来经过查看jQuery官网的api文">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-05T12:47:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery中为动态加载的DOM元素绑定事件">
+<meta name="twitter:description" content="最近终于有项目给自己的前端练手，因为是第一个项目，所以难免遇到各种各样的问题，不过踩坑也是很重要的一部分。今天说的就是一个小坑。很酷，不说闲话，步入正题。因为在项目中经常需要通过ajax动态填充表格，而我在为表格中的元素绑定事件时理所当然的像往常一样，直接去寻找DOM元素然后为其添加on()函数，然而在页面加载后发现为表格中元素绑定的事件并没有产生应有的效果，后来经过查看jQuery官网的api文">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/29/jQuery中为动态加载的DOM元素绑定事件/"/>
+
+
+
+
+
+  <title> jQuery中为动态加载的DOM元素绑定事件 | XPZ </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XPZ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我是个小胖子</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/29/jQuery中为动态加载的DOM元素绑定事件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="victorxpz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/chai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XPZ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery中为动态加载的DOM元素绑定事件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-29T10:52:44+08:00">
+                2017-04-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近终于有项目给自己的前端练手，因为是第一个项目，所以难免遇到各种各样的问题，不过踩坑也是很重要的一部分。今天说的就是一个小坑。很酷，不说闲话，步入正题。<br>因为在项目中经常需要通过ajax动态填充表格，而我在为表格中的元素绑定事件时理所当然的像往常一样，直接去寻找DOM元素然后为其添加<code>on()</code>函数，然而在页面加载后发现为表格中元素绑定的事件并没有产生应有的效果，后来经过查看jQuery官网的api文档发现了错误的原因，原文如下：</p>
+<blockquote>
+<p>Event handlers are bound only to the currently selected elements; they must exist at the time your code makes the call to .on().</p>
+</blockquote>
+<p>这句话的大意就是说只能为<strong>当前存在</strong>的DOM元素绑定事件，即在调用<code>on()</code>函数时当前元素必须存在于DOM树中。而对于如何为动态加载或者稍后才加载的元素绑定事件，文档中也给出了详细的方法：</p>
+<blockquote>
+<p>Alternatively, use delegated events to attach event handlers.</p>
+</blockquote>
+<p>即使用<strong>事件代理</strong>的方法为元素绑定事件，事件代理在jQuery中最开始通过<code>delegate()</code>方法实现，在<code>on()</code>函数出现后被取代。如果不了解事件代理的话可以查一下资料(其实当时我也不懂= =)。关于事件代理的优点，文档中也说的很清楚：</p>
+<blockquote>
+<p>Delegated events have the advantage that they can process events from descendant elements that are added to the document at a later time.</p>
+</blockquote>
+<p>通过事件代理，可以为稍后添加的<strong>后代元素</strong>传递事件。也就是说，只要能确保被绑定的元素一定存在，就可以通过事件代理的做法为其绑定事件，这样做的好处就是不用考虑代码的顺序，只要考虑元素是否会存在即可。<br>我的理论理解说的差不多了，下面来具体实现一下吧。<br>html:</p>
+<pre><code>&lt;body&gt;
+  &lt;button&gt;按钮&lt;/button&gt;
+&lt;/body&gt;
+</code></pre><p>js:</p>
+<pre><code>&lt;script&gt;
+  $(function(){
+    //绑定事件
+    $(&quot;button&quot;).on(&quot;click&quot;,function(){
+      alert($(this).text());
+    });
+    //动态添加按钮
+    function addButton(){
+      var newButton = &quot;&lt;button&gt;新按钮&lt;/button&gt;&quot;;
+      $(&quot;body&quot;).append(newButton);
+    }
+    addButton();
+  });
+&lt;/script&gt;
+</code></pre><p>按照上面的代码，点击页面中新添加的按钮将不会有效果，因为在绑定事件时DOM树中还没有新按钮这个<code>button</code>元素。如果想绑定成功的话有两种方法：第一种就是在<code>on()</code>函数调用前先调用<code>addButton()</code>函数，将<code>button</code>元素先添加到DOM树中，这种方法虽然看起来不麻烦，但是在实际的项目工程中因为通常是通过ajax动态加载元素，这种方法就显得很不实用，因此通常使用的就是第二种方法，即事件代理。事件代理的代码实现也很简单，即将绑定事件修改为如下代码：</p>
+<pre><code>$(&quot;body&quot;).on(&quot;click&quot;,&quot;button&quot;,function(){
+  alert($(this).text());
+});
+</code></pre><p>注意到在<code>on()</code>函数的调用中，我们多添加了一个参数<code>button</code>，这个参数在官方文档中被称为<code>selector</code>。一旦这个参数在<code>on()</code>的调用中的值具有实际意义，则对于该元素的绑定事件就会被当做事件代理，这一点在官方文档中也有说明：</p>
+<blockquote>
+<p>When a selector is provided, the event handler is referred to as delegated. The handler is not called when the event occurs directly on the bound element, but only for descendants (inner elements) that match the selector.</p>
+</blockquote>
+<p>另外需要注意的是，通过<code>on()</code>函数实现事件调用时，<code>selector</code>参数是需要绑定的元素，而调用<code>on()</code>函数的元素应是它的<strong>祖先元素</strong>（这里应该注意，虽然没有要求是父元素，但为了性能考虑，对祖先元素在DOM树中的定位应该越精确越好，所以通常定位到<strong>父元素</strong>）。也就是说像下面的代码是<strong>没有效果</strong>的：</p>
+<pre><code>$(&quot;button&quot;).on(&quot;click&quot;,&quot;button&quot;,function(){
+  alert($(this).text());
+});
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+            <a href="/tags/DOM/" rel="tag"># DOM</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/06/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/14/啃食红宝书——JSON-第20章/" rel="prev" title="啃食红宝书——JSON(第20章)">
+                啃食红宝书——JSON(第20章) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/chai.jpg"
+               alt="victorxpz" />
+          <p class="site-author-name" itemprop="name">victorxpz</p>
+           
+              <p class="site-description motion-element" itemprop="description">想做个盖世英雄</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/smilebuz" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">victorxpz</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,734 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="css,Flex布局," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="最近看了一些介绍Flex布局的文章，学到了不少东西，在这里简要的汇总一下。  Flex布局的盒模型和术语Flex布局的构成元素分为两种：flex container和flex item。为元素样式display设置flex或inline-flex即可使其成为一个弹性容器(flex container)。弹性布局容器内部的元素则被称为弹性项目(flex item)，而在容器内部的文字也会成为flex">
+<meta name="keywords" content="css,Flex布局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flex布局学习心得">
+<meta property="og:url" content="http://yoursite.com/2017/06/13/Flex布局学习心得/index.html">
+<meta property="og:site_name" content="XPZ">
+<meta property="og:description" content="最近看了一些介绍Flex布局的文章，学到了不少东西，在这里简要的汇总一下。  Flex布局的盒模型和术语Flex布局的构成元素分为两种：flex container和flex item。为元素样式display设置flex或inline-flex即可使其成为一个弹性容器(flex container)。弹性布局容器内部的元素则被称为弹性项目(flex item)，而在容器内部的文字也会成为flex">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-13T12:35:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flex布局学习心得">
+<meta name="twitter:description" content="最近看了一些介绍Flex布局的文章，学到了不少东西，在这里简要的汇总一下。  Flex布局的盒模型和术语Flex布局的构成元素分为两种：flex container和flex item。为元素样式display设置flex或inline-flex即可使其成为一个弹性容器(flex container)。弹性布局容器内部的元素则被称为弹性项目(flex item)，而在容器内部的文字也会成为flex">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/13/Flex布局学习心得/"/>
+
+
+
+
+
+  <title> Flex布局学习心得 | XPZ </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XPZ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我是个小胖子</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/13/Flex布局学习心得/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="victorxpz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/chai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XPZ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Flex布局学习心得
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-13T09:39:47+08:00">
+                2017-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近看了一些介绍Flex布局的文章，学到了不少东西，在这里简要的汇总一下。</p>
+<ul>
+<li><p>Flex布局的盒模型和术语<br>Flex布局的构成元素分为两种：<code>flex container</code>和<code>flex item</code>。为元素样式<code>display</code>设置<code>flex</code>或<code>inline-flex</code>即可使其成为一个<strong>弹性容器</strong>(flex container)。弹性布局容器内部的元素则被称为<strong>弹性项目</strong>(flex item)，而在容器内部的文字也会成为flex item，只不过是<strong>匿名</strong>的flex item，<strong>匿名</strong> 是指无法在css文件中单独为他们指定特殊的样式，只能继承父元素的样式。<br>!(图片)[<a href="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png" target="_blank" rel="external">https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png</a>]<br>Flex布局主要的术语有以下几种：<br>主轴(main axis)、主轴方向(main dimension)：一个弹性容器的主轴是指其弹性元素排列的方向，主轴沿着主轴方向眼神。<br>主轴起点(main-start)、主轴终点(main-end)：弹性元素在父容器内部从按照从主轴起点到主轴终点的顺序排列。<br>主轴尺寸(main size)、主轴尺寸属性(main size property)：弹性元素在主轴方向上的尺寸(宽或高)是它的主轴尺寸，它在主轴方向上的尺寸属性(宽或高)是它的主轴尺寸属性。<br>侧轴(cross axis)、侧轴方向(cross dimension)：和主轴垂直的轴即为侧轴，侧轴沿着侧轴方向延伸。<br>侧轴起点(cross-start)、侧轴终点(cross-end)：<code>flex line</code>由弹性元素在主轴方向上填充，并从侧轴起点开始排列，到侧轴终点结束。<br>侧轴尺寸(cross size)、侧轴尺寸属性(cross size property)：弹性元素在侧轴方向上的尺寸(宽或高)是它的侧轴尺寸，它在侧轴方向上的尺寸属性(宽或高)是它的侧轴尺寸属性。</p>
+</li>
+<li><p>顺序和方向<br>弹性元素在父容器中的排列顺序和方向可以由以下几个属性置顶。</p>
+<ul>
+<li>flex-direction<br>通过在弹性容器上设置flex-direction的值可以指定弹性元素的排列方向，也就是置顶了主轴的方向。它有以下四种可能的取值：<ul>
+<li>row(默认值)<br>弹性元素的排列方向与当前<code>writing mode</code>的行内布局轴方向相同。</li>
+<li>row-reverse<br>与<code>row</code>相同，不过主轴起点和主轴终点调换位置。</li>
+<li>column<br>弹性元素的排列方向与当前<code>writing mode</code>的块级布局轴方向相同。</li>
+<li>column-reverse<br>与<code>column</code>相同，不过主轴起点和主轴终点调换位置。</li>
+</ul>
+</li>
+<li>flex-wrap<br>通过在弹性容器上设置<code>flex-wrap</code>的值可以决定该弹性容器是否允许在主轴元素超出容器尺寸时换行(列)。有以下三种可能的取值：<ul>
+<li>nowrap(默认值)<br>弹性容器不允许换行(列)，即它只有一行(列)。</li>
+<li>wrap<br>弹性容器允许换行(列)，即它可能是一个多行(列)容器。</li>
+<li>wrap-reverse<br>与<code>wrap</code>相同，不过侧轴起点和侧轴终点调换位置。</li>
+</ul>
+</li>
+<li>flex-flow<br><code>flex-flow</code>是由<code>flex-wrap</code>和<code>flex-direction</code>合并的简写，它的取值是<code>flex-direction|flex-wrap</code>，默认值为<code>row|nowrap</code>。</li>
+<li>order<br>弹性元素在默认情况下是按照在文档中出现的顺序依次排列，不过可以通过为其<code>order</code>样式设置值改变其出现的顺序，容器将会根据<code>order</code>的值从小到大排列弹性元素，即越小顺序越靠前，<code>order</code>的默认值为0，可以取负值。需要注意的是这样仅仅是<strong>改变了元素在浏览器中显示的顺序，并不会改变其在文档中的顺序</strong>。</li>
+</ul>
+</li>
+<li>布局<br>弹性元素的具体布局可以由一下几个属性设置<ul>
+<li>justify-content<br>为弹性容器设置<code>justify-content</code>可以指定弹性元素在主轴上的排列位置，有以下五种可能的取值<ul>
+<li>flex-start(默认值)<br>每一条<code>flex line</code>上的弹性元素将会向主轴起点靠拢</li>
+<li>flex-end<br>每一条<code>flex line</code>上的弹性元素将会向主轴终点靠拢</li>
+<li>center<br>每一条<code>flex line</code>上的弹性元素将会向主轴的中部靠拢</li>
+<li>space-between<br>每一条<code>flex line</code>上的弹性元素会均匀分布，第一个元素在主轴起点位置，最后一个元素在主轴终点位置</li>
+<li>space-around<br>与<code>space-between</code>类似，不过第一个和最后一个元素会分别与主轴的起(终)点空两个元素间隔1/2的距离。</li>
+</ul>
+</li>
+<li>align-items<br><code>justify-content</code>可以设置弹性元素在主轴方向上的空间分布，相应的，<code>align-items</code>可以设置元素在侧轴方向上的空间分布，这个属性也有以下五种可能的取值<ul>
+<li>flex-start<br>弹性元素在侧轴起点边的外边距紧靠侧轴起点所在的边</li>
+<li>flex-end<br>弹性元素在侧轴终点边的外边距紧靠侧轴终点所在的边</li>
+<li>center<br>弹性元素在侧轴居中</li>
+<li>baseline<br>弹性元素根据基线对齐</li>
+<li>stretch(默认值)<br>弹性元素在侧轴方向拉伸到与容器一样的尺寸</li>
+</ul>
+</li>
+<li>align-self<br><code>align-items</code>作用于弹性容器，而<code>align-self</code>则作用于弹性元素，它的含义与<code>align-items</code>相同，并且取值会覆盖<code>align-items</code>的值。相比于<code>align-items</code>，<code>align-self</code>多了一个可选取值<code>auto</code>，这个值的含义就是继承容器中<code>align-items</code>的值，如果容器没有设置这个属性，则为<code>stretch</code>。</li>
+<li>align-content<br>之前曾经提到过，根据<code>flex-wrap</code>的取值和弹性元素的数量，容器可能会有多条<code>flex line</code>。而就像<code>justify-content</code>和<code>align-items</code>可以为每一条<code>flex line</code>上的弹性元素分配他们在这条线上的空间一样，也有属性可以为多条<code>flex line</code>分配他们在容器中的空间，这个属性就是<code>align-content</code>。由于每一条<code>flex line</code>在主轴方向已经占据了全部空间，因此这个属性的作用就是为每条<code>flex line</code>在侧轴方向分配空间，有以下几种可能的取值：<ul>
+<li>flex-start<br>伸缩线向侧轴起点靠拢</li>
+<li>flex-end<br>伸缩线向侧轴终点靠拢</li>
+<li>center<br>伸缩线向侧轴中部靠拢</li>
+<li>space-between<br>伸缩线均匀分布，第一条和最后一条伸缩线紧靠侧轴起点和终点</li>
+<li>space-around<br>伸缩线均匀分布，第一条和最后一条伸缩线与侧轴起点和终点留出两条伸缩线间1/2的距离</li>
+<li>stretch(默认)<br>伸缩线在侧轴方向拉伸至占据所有侧轴方向的空间</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>弹性<br>之前讲的均是flex的布局方面的技巧，而其之所以被称为<strong>弹性</strong>布局，当然尤其在伸缩性上的特殊之处，下面就介绍一下弹性布局在伸缩性上的特殊属性，这些属性的作用对象均为<strong>弹性元素</strong>。<ul>
+<li>flex-grow<br><code>flex-grow</code>定义了弹性元素的伸展能力，当主轴方向出现剩余空间时，伸展性越强的元素所占据的空间越多，其取值为一个整数，默认值为0。</li>
+<li>flex-shrink<br><code>flex-shrink</code>定义了弹性元素的收缩能力，当主轴方向空间不足时，伸缩性越强的元素所收缩的空间越多，其取值也为一个整数，默认值为1。需要注意的是，当取负值时该属性也有效，与绝对值相同，即<code>flex-shrink: -5</code>与<code>flex-shrink: 5</code>拥有相同的效果。</li>
+<li>flex-basis<br><code>flex-basis</code>定义了弹性元素的伸缩基准值，该属性的取值会覆盖元素本身的主轴尺寸。除了常规的尺寸取值之外，还可以为这个属性设置<code>auto</code>值，在这个取值作用下，该元素的伸缩基准值就等于它的主轴尺寸。默认值为<code>auto</code>。</li>
+<li>flex<br><code>flex</code>属性是以上三个属性的合并值，即其取值为<code>flex-grow|flex-shrink|flex-basis</code>，后两个值可选。当<code>flex</code>属性的值为<code>auto</code>时，这三个属性的值分别为<code>0 0 auto</code>。<code>flex</code>属性的默认值为<code>1 0 auto</code>。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/Flex布局/" rel="tag"># Flex布局</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/05/啃食红宝石——垃圾收集/" rel="next" title="啃食红宝石——垃圾收集">
+                <i class="fa fa-chevron-left"></i> 啃食红宝石——垃圾收集
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/chai.jpg"
+               alt="victorxpz" />
+          <p class="site-author-name" itemprop="name">victorxpz</p>
+           
+              <p class="site-description motion-element" itemprop="description">想做个盖世英雄</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/smilebuz" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">victorxpz</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

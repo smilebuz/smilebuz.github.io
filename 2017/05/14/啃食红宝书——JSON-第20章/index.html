@@ -1,0 +1,748 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="开始认真刷红宝书了，会把每一章自己学到的稍微记录一下，希望也能帮助自己更好的理解书中的内容。很酷。JSON是当前非常流行的一种数据交换格式，就我个人的体验而言，使用JSON作为前后端的数据交换格式非常的方便，本文就简要介绍一下JSON的特殊之处以及在JavaScript中如何处理这种数据格式。首先，虽然JSON是JavaScript的一种子集，但是与JS中对象的表示方式不同，JSON要求属性名称必">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="啃食红宝书——JSON(第20章)">
+<meta property="og:url" content="http://yoursite.com/2017/05/14/啃食红宝书——JSON-第20章/index.html">
+<meta property="og:site_name" content="XPZ">
+<meta property="og:description" content="开始认真刷红宝书了，会把每一章自己学到的稍微记录一下，希望也能帮助自己更好的理解书中的内容。很酷。JSON是当前非常流行的一种数据交换格式，就我个人的体验而言，使用JSON作为前后端的数据交换格式非常的方便，本文就简要介绍一下JSON的特殊之处以及在JavaScript中如何处理这种数据格式。首先，虽然JSON是JavaScript的一种子集，但是与JS中对象的表示方式不同，JSON要求属性名称必">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-05T12:47:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="啃食红宝书——JSON(第20章)">
+<meta name="twitter:description" content="开始认真刷红宝书了，会把每一章自己学到的稍微记录一下，希望也能帮助自己更好的理解书中的内容。很酷。JSON是当前非常流行的一种数据交换格式，就我个人的体验而言，使用JSON作为前后端的数据交换格式非常的方便，本文就简要介绍一下JSON的特殊之处以及在JavaScript中如何处理这种数据格式。首先，虽然JSON是JavaScript的一种子集，但是与JS中对象的表示方式不同，JSON要求属性名称必">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/14/啃食红宝书——JSON-第20章/"/>
+
+
+
+
+
+  <title> 啃食红宝书——JSON(第20章) | XPZ </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">XPZ</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">我是个小胖子</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/14/啃食红宝书——JSON-第20章/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="victorxpz">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/chai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="XPZ">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                啃食红宝书——JSON(第20章)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-14T21:36:53+08:00">
+                2017-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>开始认真刷红宝书了，会把每一章自己学到的稍微记录一下，希望也能帮助自己更好的理解书中的内容。很酷。<br>JSON是当前非常流行的一种数据交换格式，就我个人的体验而言，使用JSON作为前后端的数据交换格式非常的方便，本文就简要介绍一下JSON的特殊之处以及在JavaScript中如何处理这种数据格式。<br>首先，虽然JSON是JavaScript的一种子集，但是与JS中对象的表示方式不同，JSON要求属性名称必须带有<strong>双括号</strong>引用，不能是单括号也不能没有括号。例如以下这种数据结构在JS中是合法的，但是在JSON中是不被允许的:</p>
+<pre><code>{
+  name: &quot;jessica&quot;,
+  age: 18
+}
+</code></pre><p>在JSON中需要将属性名称加上双括号，即:</p>
+<pre><code>{
+  &quot;name&quot;: &quot;jessica&quot;,
+  &quot;age&quot;: 18
+}
+</code></pre><p>而这两种表示方法在JS中都是合法的。<br>其次，JavaScript也有专门的函数用来解析与序列化JSON。<code>stringify()</code>用来将JavaScript对象序列化成JSON字符串，<code>parse()</code>用来将JSON字符串解析为原声JavaScript值。</p>
+<ul>
+<li><p><code>JSON.stringify()</code></p>
+<pre><code>var person = {
+    name: &quot;jessica&quot;,
+    age: 18
+}
+var personJSON = JSON.stringify(person);
+</code></pre><p>执行以上代码之后，<code>personJSON</code>的值变为<code>{&quot;name&quot;:&quot;jessica&quot;,&quot;age&quot;:18}</code>，即<code>person</code>对象被<code>JSON.stringify()</code>序列化成了<code>personJSON</code>JSON字符串.<br>上述用法是最常用的也是最基本的JSON序列化方法。撤了要被序列化的JS对象之外，<code>stringify()</code>还可以接收另外两个参数进行不同的序列化，这两个参数用于指定以不同的方式序列化JavaScript对象。下面就详细说一下这两个参数。</p>
+<blockquote>
+<p>第一个参数是个过滤器(replacer)，可以是一个数组，也可以是一个函数；第二个参数是一个选项，表示是否在JSON字符串中保留缩进。</p>
+</blockquote>
+<p>对于过滤器参数，如果其是一个数组，则序列化之后的JSON字符串将只含有在过滤器数组中列出的属性。还是以<code>person</code>对象为例进行序列化:</p>
+<pre><code>JSON.stringify(person,[&quot;name&quot;]);
+</code></pre><p>上面一行代码中为<code>stringify()</code>函数传入了一个数组作为过滤器参数，数组中只有一个字符串<code>name</code>，则序列化的JSON字符串只包含<code>name</code>属性而不包含<code>age</code>属性，序列化后JSON字符串如下:</p>
+<pre><code>{&quot;name&quot;:&quot;jessica&quot;}
+</code></pre><p>除了数组，过滤参数器还可以是一个函数的形式。传入的函数接收两个参数，属性名和属性值，即key和value。根据这两个参数可以决定序列化后的JSON字符串的值。</p>
+<blockquote>
+<p>为了改变序列化对象的结果，函数返回的值就是相应键的值，不过要注意，如果函数返回了undefined，那么相应的属性会被忽略。</p>
+</blockquote>
+<p>依然以<code>person</code>对象为例:</p>
+<pre><code>JSON.stringify(person,function(key,value){
+    switch(key){
+        case &quot;name&quot;:
+            return undefined;
+        case &quot;age&quot;:
+            return value+&quot;岁&quot;;
+        default:
+            return value;
+    }
+});
+</code></pre><p>上述代码中，过滤器函数为<code>name</code>属性返回<code>undefined</code>，则在序列化后的JSON中将不会含有<code>name</code>属性；而过滤器函数为<code>age</code>属性返回了由年龄和岁拼接成的字符串，所以以上代码会将<code>person</code>对象序列化成<code>{&quot;age&quot;:&quot;18岁&quot;}</code>。<br><code>JSON.stringify()</code>的第三个参数用于控制结果中的缩进和空白符。如果这个参数是一个数值，那它表示的是每个级别缩进的空格数。例如<code>JSON.stringify(person,null,4)</code>可以在每个级别缩进四个空格。而在这里需要注意的是，<strong>只要传入了有效的控制缩进的参数值，序列化后的JSON字符串就会包含换行符。</strong> 最大的缩进空格数为10。<br>如果缩进参数是一个字符串而非数值，则这个字符串将在JSON字符串中被用作缩进字符(不再使用空格)，即空格的缩进位置被缩进字符所替代，锁紧字符串最长也不能超过10个字符长。<br>在序列化过程中，还有一个很重要的方法叫做<code>toJSON()</code>方法。当<code>JSON.stringify()</code>不能满足自定义序列化的需求时，可以为对象定义<code>toJSON()</code>方法，返回其自身的JSON数据格式。原生Date对象就有一个toJSON()方法。以<code>person</code>对象为例</p>
+<pre><code>{
+  name: &quot;jessica&quot;,
+  age: 18,
+  toJSON: function(){
+    return this.name;
+  }
+}
+</code></pre><p>如果为<code>person</code>对象定义了一个如上的<code>toJSON</code>方法，那么执行<code>JSON.stringify(person)</code>后对象将会序列化成<code>jessica</code>。<strong>注意此时序列化后的字符串只保留了值而不保留属性名称，这是因为<code>toJSON</code>方法中只返回了属性的值。</strong><br><strong>!!!对象的序列化顺序</strong>：</p>
+<blockquote>
+<p>1.如果存在<code>toJSON()</code>方法而且能通过它取得有效的值，则调用该方法。否则，返回对象本身。<br>2.如果提供了第二个参数，应用这个函数过滤器。传入函数过滤器的值是第1步返回的值。<br>3.对第2步返回的每个值进行相应的序列化。<br>4.如果提供了第三个餐宿，执行相应的格式化。</p>
+</blockquote>
+</li>
+<li><p><code>JSON.parse()</code><br> <code>JSON.parse()</code>将JSON字符串解析为JS对象，可以理解为序列化的逆过程。除了JSON字符串外，这个方法也可以接收另外一个参数，该参数为一个函数，接收一个键和一个值，并且需要返回一个值，为了与<code>stringify()</code>中的replacer区别，这个函数被称为还原函数(receiver)。当解析后的对象中含有<code>Date</code>类型的实例时，经常用到这个函数，因为在序列化时会调用<code>Date</code>实例内部的<code>toJSON()</code>方法，所以在解析时需要重新变换一下。</p>
+<pre><code>var time = {
+    newDate: new Date(2017, 5, 14)
+}
+var timeJSON = JSON.stringify(time);
+var time1 = JSON.parse(time);
+var time2 = JSON.parse(time,function(key,value){
+    if(key===&quot;newDate&quot;){
+      return new Date(value);
+    }else {
+      return value;
+    }
+});
+</code></pre><p><code>time1</code>和<code>time2</code>分别是未使用和使用还原函数之后解析出来的JS对象，我在下面这个表格中列出了这两个对象和序列化之前的<code>time</code>对象中的<code>newDate</code>属性的值的不同，可以看出<code>time2</code>中的<code>newDate</code>属性才是我们想要得到的。<code>time1.newDate</code>的值为<code>&quot;2017-06-13T16:00:00.000Z&quot;</code>，而<code>time2.newDate</code>的值为<code>Wed Jun 14 2017 00:00:00 GMT+0800 (中国标准时间)</code>。</p>
+<p>\ | time1 | time2 | time<br>—-|——|—- |—-<br>typeof object.newDate| string  | object | object<br>object.newDate typeof Date | false  | true | true<br>值 | “2017-06-13T16:00:00.000Z”  | Wed Jun 14 2017 00:00:00 GMT+0800 (中国标准时间) | Wed Jun 14 2017 00:00:00 GMT+0800 (中国标准时间)</p>
+</li>
+</ul>
+<p>以上就是我学到的红宝书中关于JSON方面的知识，会继续努力学习其他章节的！很酷，溜了！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/29/jQuery中为动态加载的DOM元素绑定事件/" rel="next" title="jQuery中为动态加载的DOM元素绑定事件">
+                <i class="fa fa-chevron-left"></i> jQuery中为动态加载的DOM元素绑定事件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/04/啃食红宝书——作用域/" rel="prev" title="啃食红宝书——作用域">
+                啃食红宝书——作用域 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/chai.jpg"
+               alt="victorxpz" />
+          <p class="site-author-name" itemprop="name">victorxpz</p>
+           
+              <p class="site-description motion-element" itemprop="description">想做个盖世英雄</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/smilebuz" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">victorxpz</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
