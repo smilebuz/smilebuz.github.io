@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="XPZ">
 <meta property="og:description" content="前言最近在项目中对数组使用了扩展运算(spread)进行了拷贝，但是发现修改拷贝后数组中对元素，同样会对原数组进行更改。查阅资料后发现，通过扩展运算进行的拷贝是浅拷贝，也就是说对于原数组中的引用类型元素拷贝的还是其引用，而不是完全创建一个新的元素。因为之前没有仔细了解过浅拷贝与深拷贝的概念，所以学习了一下，在这里写一下自己的理解。 浅拷贝首先要理解的一点是，在js中浅拷贝和深拷贝都是针对对象、数组">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-31T06:38:59.000Z">
+<meta property="og:updated_time" content="2017-08-31T06:41:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js中的浅拷贝与深拷贝">
 <meta name="twitter:description" content="前言最近在项目中对数组使用了扩展运算(spread)进行了拷贝，但是发现修改拷贝后数组中对元素，同样会对原数组进行更改。查阅资料后发现，通过扩展运算进行的拷贝是浅拷贝，也就是说对于原数组中的引用类型元素拷贝的还是其引用，而不是完全创建一个新的元素。因为之前没有仔细了解过浅拷贝与深拷贝的概念，所以学习了一下，在这里写一下自己的理解。 浅拷贝首先要理解的一点是，在js中浅拷贝和深拷贝都是针对对象、数组">
@@ -343,8 +343,7 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总的来说，浅拷贝只拷贝了属性的第一层属性，而深拷贝递归拷贝了所有的属性，在js中并没有内置的方法进行深拷贝，<code>slice</code>和<code>concat</code>以及通过扩展运算进行数组的拷贝从本质上来说都是像深拷贝的浅拷贝操作，而通过<code>JSON</code>的相关方法进行深拷贝只是不完整的深拷贝，因此在实践中如果真的遇到万不得已需要深拷贝的操作，还是只能针对需求去自己写一下，(感觉什么都没说。。。)。最后贴两张从知乎上面看到对于这个问题对图解，我感觉很有帮助，链接我也会贴在最后，希望大家有时间可以去原答案上给答主点赞。</p>
 <p>浅拷贝</p>
 <p>深拷贝</p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p><a href="https://www.zhihu.com/people/yang-shuo-92-53/activities" target="_blank" rel="external">知乎 javascript中的深拷贝和浅拷贝？</a></p>
-<p><a href="https://segmentfault.com/a/1190000008637489" target="_blank" rel="external">segmentfault JavaScript中的浅拷贝和深拷贝</a></p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p><a href="https://segmentfault.com/a/1190000008637489" target="_blank" rel="external">segmentfault JavaScript中的浅拷贝和深拷贝</a></p>
 <p><a href="https://github.com/wengjq/Blog/issues/3" target="_blank" rel="external">github javaScript中浅拷贝和深拷贝的实现</a></p>
 
       
